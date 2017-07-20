@@ -1,0 +1,52 @@
+---
+production: &default
+  serverPort: 3003
+  baseUrl: http://www.expresscms.com
+  views:
+    engine: .hbs
+    extension: .hbs
+    layout: main
+  html:
+    livereload: false
+    minify: true
+    css:
+      stylusPrecompile: true
+      compress: true
+  languages:
+    default: ca
+    list: [ca,es,fr,en]
+  security:
+    secret: expresscms.com
+  session:
+    cookieDomain: localhost:3003
+    maxAge: 259200
+    cookiePrefix: 'ecSession_'
+    path: '/'
+    httpOnly: true
+  db:
+    mysql:
+      host: localhost
+      user: root
+      password: '123456'
+      database: expresscms
+      port: 3306
+      debut: true
+      socket: /var/mysql/mysql.sock
+
+stage: &stage
+  <<: *default
+  baseUrl: http://stage.expresscms.com
+
+latest: &latest
+  <<: *stage
+  baseUrl: http://latest.makingdevelopers.com
+
+development:
+  <<: *latest
+  baseUrl: http://local.makingdevelopers.com
+  html:
+    livereload: true
+    minify: false
+    css:
+      stylusPrecompile: false
+      compress: false
