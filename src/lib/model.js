@@ -1,6 +1,8 @@
 import _ from 'lodash';
 import db from './db/mysql';
-import utils from './utils';
+import {isDefined,isUndefined,isNumber,isObject,isFunction} from "./utils/is"
+import {md5} from "./utils/security"
+import {clean} from "./utils/string"
 
 export default __construct;
 
@@ -45,7 +47,7 @@ function get(q, callback) {
             fields: schema.fields,
             key: schema.key
         }, callback);
-    } else if (utils.Type.isObject(q)) {
+    } else if (isObject(q)) {
         if (fields.length > 1) {
             for (i = 0; i <= count; i++) {
                 if (i === count) {
@@ -92,7 +94,7 @@ function getProcedure(procedure, values, fields, filter) {
     let params = '';
     let value;
 
-    if (utils.Type.isUndefined(filters)) {
+    if (isUndefined(filters)) {
         filters = {};
     }
 
@@ -101,26 +103,26 @@ function getProcedure(procedure, values, fields, filter) {
     }
 
     _.forEach(fields, (field) => {
-        value = values[encrypted ? utils.Security.md5(field) : field];
+        value = values[encrypted ? md5(field) : field];
 
-        if (utils.Type.isUndefined(value)) {
+        if (isUndefined(value)) {
             value = '';
         }
 
         if (field === 'networkId') {
-            value = `'${utils.String.clean(value.toString())}'`;
+            value = `'${clean(value.toString())}'`;
         }
 
-        if (!utils.Type.isNumber(value)) {
+        if (isNumber(value)) {
             method = filters[field];
 
             if (filter === false) {
                 value = `'${value}'`;
             } else {
-                if (utils.Type.isDefined(method) && utils.Type.isFunction(utils[method])) {
+                if (isDefined(method) && isFunction(utils[method])) {
                     value = `'${utils[method](value)}'`;
                 } else {
-                    value = `'${utils.String.clean(value)}'`;
+                    value = `'${clean(value)}'`;
                 }
             }
         }

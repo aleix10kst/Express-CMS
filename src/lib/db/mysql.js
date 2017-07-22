@@ -1,12 +1,12 @@
-import $config from '../config';
+import {$db} from '../config';
 import mysql from 'mysql';
 
 const connection = mysql.createConnection({
-    database: $config().db.mysql.database,
-    host: $config().db.mysql.host,
-    password: $config().db.mysql.password,
-    port: $config().db.mysql.port,
-    user: $config().db.mysql.user
+    database: $db.database,
+    host: $db.host,
+    password: $db.password,
+    port: $db.port,
+    user: $db.user
 });
 
 export default {

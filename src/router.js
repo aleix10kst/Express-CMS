@@ -1,13 +1,13 @@
-import $config from './lib/config';
+import {$baseUrl} from './lib/config';
+import {$languages} from "./lib/config"
 import i18n from './lib/i18n';
-import utils from './lib/utils';
-
+import { isMobile } from './lib/utils/device'
 import contentController from './app/content/content.controller';
 import dashboardController from './app/dashboard/dashboard.controller';
 import homeController from './app/home/home.controller';
 
 export default (app) => {
-    const availableLanguages = $config().languages.list.join('|');
+    const availableLanguages = $languages().list.join('|');
 
     // i18n
     app.use((req, res, next) => {
@@ -26,7 +26,7 @@ export default (app) => {
 
     // Device detector
     app.use((req, res, next) => {
-        res.locals.isMobile = utils.Device.isMobile(req.headers['user-agent']);
+        res.locals.isMobile = isMobile(req.headers['user-agent']);
 
         return next();
     });

@@ -9,13 +9,15 @@ import bodyParser from 'body-parser';
 import exphbs from 'express-handlebars';
 import stylus from 'stylus';
 
-import $config from './lib/config'
+import {$html} from './lib/config'
+import {$views} from './lib/config'
+import {$serverPort} from "./lib/config"
 import hbsHelpers from './lib/handlebars';
 
 import router from './router';
 
 const app = express();
-if (!$config().html.css.stylusPrecompile){
+if (!$html().css.stylusPrecompile){
     //Stylus middleware
     app.use(
         stylus.middleware({
@@ -28,23 +30,17 @@ if (!$config().html.css.stylusPrecompile){
     );
 }
 
-//Sending config to templates
-app.use((req,res,next) => {
-    res.locals.config = $config();
-    next();
-})
-
 //Handlebars setup
-app.engine($config().views.engine,exphbs({
-    extname: $config().views.extension,
-    defaultLayout: $config().views.layout,
+app.engine($views().engine,exphbs({
+    extname: $views().extension,
+    defaultLayout: $views().layout,
     layoutsDir: path.join(__dirname,'/views/layouts'),
     partialsDir: path.join(__dirname,'/views/partials'),
     helpers: hbsHelpers
 }));
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', $config().views.engine);
+app.set('view engine', $views().engine);
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -60,5 +56,5 @@ router(app);
 //Disabling x-powered-by
 app.disable('x-powered-by');
 
-app.listen($config().serverPort || 3000);
+app.listen($serverPort() || 3000);
 //module.exports = app;

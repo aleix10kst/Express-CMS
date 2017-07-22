@@ -1,7 +1,7 @@
-import $config from './config'
+import {$security} from './config'
 import crypto from 'crypto'
 
-const salt = $config().security.secret;
+const salt = $security.secret;
 
 export default {
     md5: md5,
