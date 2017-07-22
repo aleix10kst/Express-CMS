@@ -6,7 +6,7 @@ export default {
     getContent
 };
 
-function getContent() {
+function getContent(language, callback) {
     const procedure = Content.getProcedure('getContent',language,['language']);
 
     Content.query(procedure,callback,(result, callback) => {

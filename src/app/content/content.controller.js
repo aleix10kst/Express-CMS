@@ -1,21 +1,21 @@
 import express from 'express';
-import $confg from '../../lib/config';
+import $config from '../../lib/config';
 import contentModel from './content.model';
 import utils from '../../lib/utils';
 
 const router = express.Router();
-const availableLanguages = $confg().languages.list.join('|');
+const availableLanguages = $config().languages.list.join('|');
 
-/*
+/**
 * Content
-* */
+*/
 
 router.get(`/:language(${availableLanguages}).json`, (req,res) => {
     contentModel.getContent({
         language: req.params.language
     }, (content) => {
         if (content) {
-            res.send(utils.Object.buildJson(content));
+            res.send(utils.Object.buildContentJson(content));
         } else {
             res.redirect('/');
         }

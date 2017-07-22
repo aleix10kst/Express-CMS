@@ -144,3 +144,5 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `network`, `networkId`, `username`, `password`, `email`, `avatar`, `suscribed`, `privilege`, `state`) VALUES
 (1, 'twitter', '757439206155182100', 'MakDevTest', '', 'makingdevtest@gmail.com', 'https://pbs.twimg.com/profile_images/603310588190658560/6jLlKtr1.png', 0, 'god', 'Active');
+
+COUNT * from blog;

@@ -6,7 +6,7 @@ const connection = mysql.createConnection({
     host: $config().db.mysql.host,
     password: $config().db.mysql.password,
     port: $config().db.mysql.port,
-    user: $config().db.mysql.user,
+    user: $config().db.mysql.user
 });
 
 export default {
@@ -17,37 +17,40 @@ export default {
     findFirst,
     findLast,
     query
-}
+};
 
-function getQuery(obj,find) {
+function getQuery(obj, find) {
     const getFields = () => obj.fields || '*';
     const getTable = () => obj.table;
     const getGroup = () => obj.group && ` GROUP BY ${obj.group} ` || '';
     const getOrder = () => obj.order && ` ORDER BY ${obj.order} ` || '';
-    const getLimit = () => obj.limit && ` LIMIT ${obj.limit}` || '';
+    const getLimit = () => obj.limit && ` LIMIT ${obj.limit} ` || '';
 
     let limit = getLimit();
     let order = getOrder();
     let where = '';
 
-    //Find by id
-    if (obj.key && obj.id){
+    // Find by id
+    if (obj.key && obj.id) {
         where = ` WHERE ${obj.key} = ${obj.id} `;
     }
 
-    if (obj.field && obj.value){
-        where = ` WHERE ${obj.field} = ${obj.value}`;
+    // Find by field
+    if (obj.field && obj.value) {
+        where = ` WHERE ${obj.field} = '${obj.value}' `;
     }
 
-    if (obj.query){
-        where = ` WHERE ${obj.query}`;
+    // Find by SQL
+    if (obj.query) {
+        where = ` WHERE ${obj.query} `;
     }
 
-    if (find){
+    // Find first
+    if (find) {
         limit = ' LIMIT 1 ';
     }
 
-    if (find === 'last'){
+    if (find === 'last') {
         order = ` ORDER BY ${obj.key} DESC `;
     }
 
@@ -55,7 +58,7 @@ function getQuery(obj,find) {
 }
 
 function find(obj, callback) {
-    if (!obj.id){
+    if (!obj.id) {
         return false;
     }
 
@@ -70,22 +73,24 @@ function findBy(obj, callback) {
     return connection.query(getQuery(obj), callback);
 }
 
-function findBySQL() {
+function findBySQL(obj, callback) {
     return connection.query(getQuery(obj), callback);
 }
 
-function findFirst(obj,callback) {
-    return connection(getQuery(obj,'first'),callback);
+function findFirst(obj, callback) {
+    return connection.query(getQuery(obj, 'first'), callback);
 }
 
-function findLast(obj,callback) {
-    if (!obj.key){
+function findLast(obj, callback) {
+    if (!obj.key) {
         return false;
     }
 
-    return connection.query(getQuery(obj,'last'), callback);
+    return connection.query(getQuery(obj, 'last'), callback);
 }
 
 function query(sql, callback) {
-    return sql ? connection.query(sql,callback) : false;
+    return sql
+        ? connection.query(sql, callback)
+        : false;
 }

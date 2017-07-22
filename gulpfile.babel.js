@@ -9,12 +9,13 @@ import mocha from 'gulp-mocha'
 import remoteSrc from 'gulp-remote-src'
 import jsonFormat from 'gulp-json-format'
 
-//Content task
-gulp.task('content', () => {
-    remoteSrc(['en.json','es.json','ca.json'],{
-        base: `${$config('development').baseUrl}/content`
-    }).pipe(jsonFormat(2)).pipe(gulp.dest('./src/content/i18n/'));
-})
+// Content task
+gulp.task('content', function() {
+    remoteSrc(['en.json', 'es.json','ca.json'], {
+        base: `${$config('development').baseUrl}/content/`
+    })
+    .pipe(gulp.dest('./src/content/i18n/'));
+});
 
 //Mocha task
 gulp.task('test',() => {
@@ -22,7 +23,7 @@ gulp.task('test',() => {
         'test/**/*Test.js'
     ])
         .pipe(mocha());
-})
+});
 
 //Linter task
 gulp.task('analyze', () => {

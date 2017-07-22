@@ -1,5 +1,5 @@
 {{#if config.html.livereload }}
     <script>
-        document.write('<script src="http//' + (location.host || 'localhost').slpit(':')[0] + ':35270/livereload.js?sniperver=1"></' + 'script>')
+        document.write('<script src="http//' + (location.host || 'localhost').split(':')[0] + ':35270/livereload.js?sniperver=1"></' + 'script>')
     </script>
 {{/if}}

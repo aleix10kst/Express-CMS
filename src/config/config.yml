@@ -27,7 +27,7 @@ production: &default
     mysql:
       host: localhost
       user: root
-      password: '123456'
+      password: 'Beattheheat'
       database: expresscms
       port: 3306
       debut: true
@@ -39,11 +39,11 @@ stage: &stage
 
 latest: &latest
   <<: *stage
-  baseUrl: http://latest.makingdevelopers.com
+  baseUrl: http://localhost:3003
 
 development:
   <<: *latest
-  baseUrl: http://local.makingdevelopers.com
+  baseUrl: http://localhost:3003
   html:
     livereload: true
     minify: false

@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS content;
-CREATE TABLE content (
+CREATE TABLE content(
   id int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   name varchar(255) DEFAULT NULL,
   value text NOT NULL,

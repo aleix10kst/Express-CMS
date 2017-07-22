@@ -61,6 +61,20 @@ function buildJson(nodes, raw) {
     return row;
 }
 
+function buildContentJson(nodes, raw) {
+    const rows = {};
+
+    _.forEach(nodes, node => {
+        rows[node.name] = node.value;
+    });
+
+    if (!raw) {
+        dot.object(rows);
+    }
+
+    return rows;
+}
+
 function pick(key,obj){
     return dot.pick(key,obj) || key;
 }
@@ -198,6 +212,7 @@ export default {
     },
     Object: {
         buildJson,
+        buildContentJson,
         pick,
         stringify
     },
